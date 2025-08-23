@@ -19,7 +19,6 @@ LANGUAGES = {
     "Marathi (mr)": "mr",
     "Punjabi (pa)": "pa",
     "Urdu (ur)": "ur"
-    # add more as needed
 }
 
 st.title("Bhashini Speech-to-Speech Translator")
@@ -31,11 +30,17 @@ target_lang = LANGUAGES[target_lang_name]
 
 st.write("Press record and speak. When done, click 'Stop Recording'.")
 
-audio_bytes = audio_recorder("Click to record", "Stop Recording")
+audio = audio_recorder("Click to record", "Stop Recording")
 
-if audio_bytes is not None and len(audio_bytes) > 0:
+# Save audio in session state to persist between reruns
+if audio is not None and len(audio) > 0:
+    st.session_state['audio_bytes'] = audio
+
+if 'audio_bytes' in st.session_state:
+    audio_bytes = st.session_state['audio_bytes']
     st.audio(audio_bytes, format="audio/wav")
     audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
+
     if st.button("Translate Speech!"):
         with st.spinner("Translating, please wait..."):
             try:
