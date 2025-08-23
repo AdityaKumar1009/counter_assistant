@@ -1,0 +1,5 @@
+streamlit==1.25.0
+audio_recorder_streamlit==0.0.6
+python-dotenv==1.0.0
+requests==2.31.0
+bhashini_translator==0.1.0
