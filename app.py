@@ -21,23 +21,54 @@ LANGUAGES = {
     "Maithili (mai)": "mai"
 }
 
-# ✅ Example 10 questions (generic for bank/office/hospital use cases)
-QUESTIONS = [
+# ✅ Questions for Railway Enquiry
+RAILWAY_QUESTIONS = [
     "What is your full name?",
-    "What is your date of birth?",
-    "What is your address?",
     "What is your phone number?",
-    "What service are you here for?",
+    "What is your PNR number?",
+    "What is your train number or train name?",
+    "What is your boarding station?",
+    "What is your destination station?",
+    "What is your date of journey?",
+    "Do you need to check seat availability?",
+    "Do you want to enquire about train timings?",
+    "Do you want to enquire about train delay status?",
+    "Do you want to know about platform information?",
+    "Do you need help with ticket cancellation or refund?"
+]
+
+# ✅ Questions for Airport Enquiry
+AIRPORT_QUESTIONS = [
+    "What is your full name?",
+    "What is your phone number?",
     "Do you have any identity proof with you?",
-    "What is your account number or reference ID?",
-    "Do you need help filling the form?",
-    "Do you need translation assistance?",
-    "Do you want to receive further communication by phone or email?"
+    "What is your flight number?",
+    "What is your departure city?",
+    "What is your destination city?",
+    "What is your travel date?",
+    "Do you need to check flight status?",
+    "Do you want to enquire about check-in counters?",
+    "Do you want to enquire about boarding gates?",
+    "Do you want to know baggage allowance?",
+    "Do you need information about delays or cancellations?",
+    "Do you need help with ticket rescheduling?"
 ]
 
 # ✅ Title
-st.markdown("<h1 style='text-align: center; font-size: 42px; font-weight: bold;'>🏦 Counter Assistant System</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-size: 42px; font-weight: bold;'>🛠️ Counter Assistant System</h1>", unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
+
+# ✅ Service Selection
+service_type = st.radio(
+    "Select Service Type:",
+    ("🚆 Railway Enquiry", "✈️ Airport Enquiry"),
+    horizontal=True
+)
+
+if service_type == "🚆 Railway Enquiry":
+    QUESTIONS = RAILWAY_QUESTIONS
+else:
+    QUESTIONS = AIRPORT_QUESTIONS
 
 # ✅ Language Selection
 col1, col2 = st.columns(2)
@@ -55,7 +86,11 @@ translator.getPipeLineConfig("translation")
 translator.getPipeLineConfig("tts")
 
 # ✅ Translate heading
-heading_text = "Questions for the Customer"
+if service_type == "🚆 Railway Enquiry":
+    heading_text = "Railway Enquiry Questions for the Customer"
+else:
+    heading_text = "Airport Enquiry Questions for the Customer"
+
 translator.getPipeLineConfig("translation")
 heading_translated = translator.translate(heading_text)
 st.markdown(f"<h3 style='text-align:center;'>💬 {heading_translated}</h3>", unsafe_allow_html=True)
